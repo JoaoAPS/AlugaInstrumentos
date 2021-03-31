@@ -3,22 +3,21 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 
 
-
 class UserManager(BaseUserManager):
-    
+
     def create_user(self, email: str, name: str, password: str):
         """Create and save a new user"""
         user = self.model(email=email, name=name)
         user.set_password(password)
-        
+
         user.save(using=self._db)
         return user
-    
-    def create_superuser(self, email: str, name: str, password:str):
+
+    def create_superuser(self, email: str, name: str, password: str):
         """Create and save a new superuser"""
         user = self.create_user(email=email, name=name, password=password)
         user.is_admin = True
-        
+
         user.save(using=self._db)
         return user
 
@@ -41,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         """Is the user a member of staff?"""
         return self.is_admin
-    
+
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         return True
