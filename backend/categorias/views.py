@@ -16,6 +16,9 @@ class CategoriaViewSet(
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
+    def get_queryset(self):
+        return super().get_queryset().order_by('name')
+
     def get_permissions(self):
         """Permite acesso de escrita somente para administradores"""
         if self.action in ['list', 'retrieve']:
