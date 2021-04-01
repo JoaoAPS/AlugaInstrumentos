@@ -5,11 +5,15 @@ name = "pypi"
 
 [packages]
 django = "*"
+djangorestframework = "*"
 
 [dev-packages]
 pytest = "*"
 flake8 = "*"
 autopep8 = "*"
+pylint = "*"
+pytest-django = "*"
+mixer = "*"
 
 [requires]
 python_version = "3.9"
