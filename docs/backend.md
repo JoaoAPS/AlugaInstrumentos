@@ -89,7 +89,7 @@ Retorna os dados do pedido.
 ### `POST /api/pedidos/`
 - Permissões: autenticado
 - Payload:
-    + `equip_id`: Id do equipamento a ser adicionado no pedido
+    + `equipamentos`: IDs do equipamento a serem adicionados no pedido
     + `start_date` (opcional): Data de início do aluguel
     + `end_date` (opcional): Data de término do aluguel
 
@@ -98,7 +98,7 @@ Cria um novo pedido e adiciona o item passado nele.
 ### `POST /api/pedidos/<id_pedido>/`
 - Permissões: autenticado, dono do pedido
 - Payload:
-    + `equip_id`: Id do equipamento a ser adicionado no pedido
+    + `equipamento`: Id do equipamento a ser adicionado no pedido
     
 Adiciona um equipamento a um pedido já existente
 

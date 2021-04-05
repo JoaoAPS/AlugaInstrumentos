@@ -13,6 +13,7 @@ class Pedido(models.Model):
     equipamentos = models.ManyToManyField(Equipamento, related_name='pedidos')
     start_date = models.DateField(null=True, default=None)
     end_date = models.DateField(null=True, default=None)
+    executed = models.BooleanField(default=False)
 
     @property
     def days_rented(self):
