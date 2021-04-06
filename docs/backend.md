@@ -38,7 +38,7 @@ Deleta uma categoria.
     + `start_date`: Exibe só os equips disponíveis a partir dessa data
     + `end_date`: Exibe só os equips disponíveis até essa data
     + `page`: Paginação
-    + `categoria`: Exibe só os equips dessa categoria
+    + `categorias`: Exibe só os equips dessa categoria
     + `sort`: Ordena a lista por esse parâmetro
 
 Lista todos os equipamentos disponíveis para alugar.

@@ -11,7 +11,9 @@ class Equipamento(models.Model):
     price_per_day = models.DecimalField(
         'preço por dia', decimal_places=2, max_digits=10
     )
-    categorias = models.ManyToManyField(Categoria, related_name='equipamentos')
+    categorias = models.ManyToManyField(
+        Categoria, related_name='equipamentos', blank=True
+    )
 
     def isAvailableAt(self, start_date=None, end_date=None):
         """Retorna se o equipamento pode ser alugado nesse período"""
