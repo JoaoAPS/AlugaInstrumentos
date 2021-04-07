@@ -35,6 +35,16 @@ class Pedido(models.Model):
         """
         return self.days_rented() * self.price_per_day()
 
+    class Meta():
+        constraints = [models.CheckConstraint(
+            check=(
+                models.Q(start_date__isnull=True) |
+                models.Q(end_date__isnull=True) |
+                models.Q(end_date__gt=models.F('start_date'))
+            ),
+            name='end_date must be after start_date'
+        )]
+
     def __str__(self):
         return f'<Pedido {self.id} - {self.user.email}>'
 

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from pedidos.models import Pedido
-from pedidos.serializers import PedidoSerializer, PedidoUpdateSerializer
+from pedidos import serializers
 from equipamentos.models import Equipamento
 from core.exceptions import EquipamentoUnavailable, DuplicateExecution
 from core.services import executePedido, cancelPedido
@@ -13,7 +13,7 @@ from core.services import executePedido, cancelPedido
 class PedidoViewset(viewsets.ModelViewSet):
     """Viewset do model Pedido"""
 
-    serializer_class = PedidoSerializer
+    serializer_class = serializers.PedidoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -22,9 +22,15 @@ class PedidoViewset(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         """Retorna o serializer class correto de acordo com a ação"""
+        if self.action == 'create':
+            return serializers.PedidoCreateSerializer
         if self.action == 'update':
-            return PedidoUpdateSerializer
+            return serializers.PedidoUpdateSerializer
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Cria pedido definindo o user logado como dono"""
+        return serializer.save(user=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
         """Checa se o pedido a ser cancelado aindo não foi executado"""
@@ -72,7 +78,10 @@ class PedidoViewset(viewsets.ModelViewSet):
         try:
             equipamento = pedido.equipamentos.get(id=equip_id)
         except Equipamento.DoesNotExist:
-            return Response('O pedido já não continha esse equipamento')
+            return Response(
+                'O pedido já não continha esse equipamento',
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         pedido.equipamentos.remove(equipamento)
         pedido.save()
