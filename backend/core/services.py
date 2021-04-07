@@ -16,7 +16,7 @@ def executePedido(pedido: Pedido):
 
     reservas = []
 
-    for equipamento in pedido.equipamentos:
+    for equipamento in pedido.equipamentos.all():
         # Checa se o equipamento está disponível
         if not equipamento.isAvailableAt(
             start_date=pedido.start_date, end_date=pedido.end_date
@@ -28,6 +28,7 @@ def executePedido(pedido: Pedido):
 
         # Prepara a reserva
         reservas.append(Reserva(
+            pedido=pedido,
             equipamento=equipamento,
             start_date=pedido.start_date,
             end_date=pedido.end_date
@@ -35,8 +36,8 @@ def executePedido(pedido: Pedido):
 
     # Executa as reservas
     for reserva in reservas:
-        r = reserva.save()
-        pedido.reservas.add(r)
+        reserva.save()
+        pedido.reservas.add(reserva)
 
     pedido.executed = True
     pedido.save()
@@ -49,9 +50,8 @@ def cancelPedido(pedido: Pedido):
             'O pedido não pode ser cancelado pois não está sendo executado!'
         )
 
-    for reserva in pedido.reservas:
+    for reserva in pedido.reservas.all():
         reserva.delete()
-    pedido.reservas.clear()
 
     pedido.executed = False
     pedido.save()
