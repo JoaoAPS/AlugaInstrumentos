@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 
     'users',
     'categorias',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -124,10 +126,8 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 STATIC_URL = '/static/'
 
-
+CORS_ALLOW_ALL_ORIGINS = True
