@@ -2,6 +2,8 @@ import { useReducer } from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 // Components
 import Login from "./pages/Login"
+import Register from "./pages/Register"
+import Header from "./components/Header"
 // Context
 import UserContext from "./context/UserContext"
 import { userInitialState, userReducer } from "./context/userReducer"
@@ -16,6 +18,14 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+
+          <Switch>
+            <Header />
+
+            <Route path="/register">
+              <Register />
+            </Route>
+          </Switch>
         </Switch>
       </BrowserRouter>
     </UserContext.Provider>
