@@ -2,12 +2,14 @@ import { useState, useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import userContext from "../context/UserContext"
 import api, { CancelToken } from "../API"
+import { usePrevious } from "../hooks/usePrevious"
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [submitCount, setSubmitCount] = useState(0)
   const [error, setError] = useState("")
+  const [submitCount, setSubmitCount] = useState(0)
+  const prevSubmitCount = usePrevious(submitCount)
   const { userDispatch } = useContext(userContext)
 
   function handleSubmit(e) {
@@ -16,7 +18,8 @@ function Login() {
   }
 
   useEffect(() => {
-    if (submitCount == 0) return
+    if (submitCount === 0) return
+    if (submitCount === prevSubmitCount) return
 
     const cancelSource = CancelToken.source()
 
@@ -42,7 +45,7 @@ function Login() {
       })
 
     return () => cancelSource.cancel()
-  }, [submitCount])
+  }, [submitCount, prevSubmitCount, email, password, userDispatch])
 
   useEffect(() => {
     setError("")
@@ -67,7 +70,7 @@ function Login() {
 
           <div className="row">
             <div className="col-md-12">
-              {error != "" && <small className="text-danger">{error}</small>}
+              {error !== "" && <small className="text-danger">{error}</small>}
 
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
