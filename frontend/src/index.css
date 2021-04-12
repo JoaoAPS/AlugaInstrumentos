@@ -29,3 +29,37 @@ html {
   background-repeat: no-repeat;
   background-size: auto 80%;
 }
+
+#home-container {
+  min-height: 400px;
+}
+
+#home-title-container {
+  position: relative;
+  display: grid;
+  place-items: center;
+  
+  font-family: 'Dancing Script', cursive;
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+#home-title-container h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3.5rem;
+  font-weight: bold;
+}
+
+#home-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  z-index: -5;
+  
+  background-image: url("assets/logo_muted.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
