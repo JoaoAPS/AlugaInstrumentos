@@ -5,6 +5,15 @@ export function userReducer(prev, action) {
 
   if (type === "LOGIN") {
     localStorage.setItem("lojaMusicaToken", payload.token)
-    return payload.user
+    return {
+      id: payload.id,
+      email: payload.email,
+      name: payload.name,
+    }
+  }
+
+  if (type === "LOGOUT") {
+    localStorage.removeItem("lojaMusicaToken")
+    return null
   }
 }

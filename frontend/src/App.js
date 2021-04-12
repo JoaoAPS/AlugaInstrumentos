@@ -19,13 +19,13 @@ function App() {
             <Login />
           </Route>
 
-          <Switch>
+          <Route path="/">
             <Header />
 
             <Route path="/register">
               <Register />
             </Route>
-          </Switch>
+          </Route>
         </Switch>
       </BrowserRouter>
     </UserContext.Provider>

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import userContext from "../context/UserContext"
 import api, { CancelToken } from "../API"
 import { usePrevious } from "../hooks/usePrevious"
@@ -11,6 +11,7 @@ function Login() {
   const [submitCount, setSubmitCount] = useState(0)
   const prevSubmitCount = usePrevious(submitCount)
   const { userDispatch } = useContext(userContext)
+  const history = useHistory()
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -24,9 +25,14 @@ function Login() {
     const cancelSource = CancelToken.source()
 
     api
-      .post("/login/", { username: email, password: password }, { cancelToken: cancelSource.token })
+      .post(
+        "/registration/login/",
+        { username: email, password: password },
+        { cancelToken: cancelSource.token }
+      )
       .then(res => {
         userDispatch({ type: "LOGIN", payload: res.data })
+        history.push("/")
       })
       .catch(err => {
         const error_msg = err.response.data.non_field_errors
@@ -45,7 +51,7 @@ function Login() {
       })
 
     return () => cancelSource.cancel()
-  }, [submitCount, prevSubmitCount, email, password, userDispatch])
+  }, [submitCount, prevSubmitCount, email, password, userDispatch, history])
 
   useEffect(() => {
     setError("")
@@ -74,7 +80,7 @@ function Login() {
 
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label for="email-field">Email</label>
+                  <label htmlFor="email-field">Email</label>
                   <input
                     id="email-field"
                     type="email"
@@ -85,7 +91,7 @@ function Login() {
                 </div>
 
                 <div className="form-group">
-                  <label for="password-field">Senha</label>
+                  <label htmlFor="password-field">Senha</label>
                   <input
                     id="password-field"
                     type="password"

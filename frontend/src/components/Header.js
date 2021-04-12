@@ -9,8 +9,8 @@ function Header() {
   return (
     <header className="bg-secondary text-light" style={{ height: "80px" }}>
       <div className="row container-fluid h-100 mx-auto px-5 align-items-center">
-        <div className="col-md-1 h-100">
-          <img src={logo} alt="Logo" style={{ maxHeight: "90%" }} />
+        <div className="col-md-1 h-100 d-flex align-items-center">
+          <img src={logo} alt="Logo" style={{ height: "65%" }} />
         </div>
         <div className="col-md"></div>
         <div className="col-md-auto h-100 offset-md-7 d-flex">
