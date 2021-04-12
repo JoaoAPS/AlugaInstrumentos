@@ -32,19 +32,23 @@ class UserRegisterView(views.APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
-        password1 = data.pop('password1')[0]
-        password2 = data.pop('password2')[0]
+        password1 = data.pop('password1')
+        password2 = data.pop('password2')
+        if type(password1) == list:
+            password1 = password1[0]
+        if type(password2) == list:
+            password2 = password2[0]
 
         serializer = UserSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         if not password1:
             return Response(
-                'A senha deve ser definida.',
+                {'password1': 'A senha deve ser definida.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         if password2 != password1:
             return Response(
-                'Os dois campos de senha devem ser iguais.',
+                {'password2': 'Os dois campos de senha devem ser iguais.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
