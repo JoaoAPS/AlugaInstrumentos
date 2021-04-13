@@ -48,9 +48,14 @@ html {
   font-family: 'Dancing Script', cursive;
   font-size: 3.5rem;
   font-weight: bold;
+  color: black;
+
+  position: relative;
+  left: 50px;
+  bottom: 50px;
 }
 
-#home-logo {
+/* #home-logo {
   position: absolute;
   top: 0;
   left: 0;
@@ -59,6 +64,20 @@ html {
   z-index: -5;
   
   background-image: url("assets/logo_muted.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+} */
+
+#home-logo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  height: 90%;
+  z-index: -5;
+  
+  background-image: url("assets/guitar.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
