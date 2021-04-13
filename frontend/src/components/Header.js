@@ -8,7 +8,7 @@ function Header() {
 
   return (
     <header className="bg-secondary text-light" style={{ height: "80px" }}>
-      <div className="row container-fluid h-100 ">
+      <div className="row container h-100 mx-auto">
         <div className="col-md-1 h-100 mx-auto px-5 align-items-center">
           <Link to="/" className="h-100 d-flex align-items-center">
             <img src={logo} alt="Logo" style={{ height: "65%" }} />
