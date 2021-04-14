@@ -11,6 +11,7 @@ class Equipamento(models.Model):
     price_per_day = models.DecimalField(
         'preço por dia', decimal_places=2, max_digits=10
     )
+    is_instrument = models.BooleanField()
     categorias = models.ManyToManyField(
         Categoria, related_name='equipamentos', blank=True
     )

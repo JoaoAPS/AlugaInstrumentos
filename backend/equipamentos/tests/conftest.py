@@ -24,6 +24,7 @@ def equipamento(db):
         name='Test Equip',
         description='lorem ipsum',
         price_per_day=1.00,
+        is_instrument=True
     )
     equip.categorias.add(cat)
     return equip

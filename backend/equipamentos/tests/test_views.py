@@ -28,14 +28,31 @@ def test_equipamento_list_view_optional_params(list_url, userClient):
     c2 = mixer.blend(Categoria)
 
     e1 = mixer.blend(
-        Equipamento, name='e1', categorias=[c1, c2], price_per_day=1.0
+        Equipamento,
+        name='e1',
+        categorias=[c1, c2],
+        price_per_day=1.0,
+        is_instrument=True
     )
     e2 = mixer.blend(
-        Equipamento, name='e2', categorias=[c2], price_per_day=5.0
+        Equipamento,
+        name='e2',
+        categorias=[c2],
+        price_per_day=5.0,
+        is_instrument=True
+    )
+    mixer.blend(
+        Equipamento,
+        name='e3',
+        categorias=[c2],
+        price_per_day=5.0,
+        is_instrument=False
     )
     mixer.blend(Equipamento, categorias=[c1])
 
-    res = userClient.get(list_url + f'?categorias={c2.id}&sort=-price_per_day')
+    res = userClient.get(
+        list_url + f'?categorias={c2.id}&instrumento=1&sort=-price_per_day'
+    )
     equipamentos = [e2, e1]
     serializer = EquipamentoSerializer(equipamentos, many=True)
 
