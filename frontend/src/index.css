@@ -23,6 +23,7 @@ html {
 }
 
 
+/* Login */
 #login-container {
   background-image: url("assets/logo_muted.png");
   background-position: center;
@@ -30,6 +31,7 @@ html {
   background-size: auto 80%;
 }
 
+/* Home Page */
 #home-container {
   min-height: 400px;
 }
@@ -55,20 +57,6 @@ html {
   bottom: 50px;
 }
 
-/* #home-logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 70%;
-  height: 100%;
-  z-index: -5;
-  
-  background-image: url("assets/logo_muted.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-} */
-
 #home-logo {
   position: absolute;
   bottom: 0;
@@ -81,4 +69,24 @@ html {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+
+/* Custom bootstrap classes */
+@media (min-width: 768px) and (max-width: 992px) {
+  .border-left-md-0 {
+    border-left: none !important;
+  }
+  .border-right-md-0 {
+    border-right: none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .border-left-lg-0 {
+    border-left: none !important;
+  }
+  .border-right-lg-0 {
+    border-right: none !important;
+  }
 }

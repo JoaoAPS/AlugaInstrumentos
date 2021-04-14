@@ -17,7 +17,7 @@ function Home() {
               relacionados para aluguel.
             </p>
             <Link
-              to="#"
+              to="/catalog"
               className="btn btn-outline-success mt-5 py-2 px-3"
               style={{ fontSize: "1.8rem", fontWeight: 600 }}
             >
