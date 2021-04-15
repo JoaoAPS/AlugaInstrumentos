@@ -1,7 +1,21 @@
 import useFetch from "../hooks/useFetch"
 
-function CatalogSidebar({ dispatch }) {
+function CatalogSidebar({ dispatch, activeCat }) {
   const { data: categorias, isLoading, error } = useFetch("categorias")
+
+  const handleClick = item_clicked => {
+    if (activeCat === item_clicked.id) {
+      dispatch({ type: "CLEAR_FILTERS" })
+    } else {
+      dispatch({
+        type: "UPDATE_FILTERS",
+        payload: { isInstrument: item_clicked.is_instrument, categoria: item_clicked.id },
+      })
+    }
+  }
+
+  const listItemClasses = item =>
+    "text-capitalize pl-4 py-1" + (item.id === activeCat ? " bg-light text-info" : "")
 
   if (isLoading) return <div></div>
   if (error) return <h3>Erro ao carregar categorias!</h3>
@@ -23,12 +37,7 @@ function CatalogSidebar({ dispatch }) {
       <CatalogSidebarSection key="instruments">
         <h5
           style={{ cursor: "pointer" }}
-          onClick={() =>
-            dispatch({
-              type: "FILTER_INSTRUMENT",
-              payload: { isIstrument: true, categoria: null },
-            })
-          }
+          onClick={() => handleClick({ id: null, is_instrument: true })}
         >
           Instrumentos
         </h5>
@@ -39,14 +48,9 @@ function CatalogSidebar({ dispatch }) {
             .map(instr => (
               <li
                 key={instr.id}
-                className="text-capitalize pl-4 pt-2"
+                className={listItemClasses(instr)}
                 style={{ cursor: "pointer" }}
-                onClick={() =>
-                  dispatch({
-                    type: "FILTER_INSTRUMENT",
-                    payload: { isIstrument: true, categoria: instr.id },
-                  })
-                }
+                onClick={() => handleClick(instr)}
               >
                 {instr.name}
               </li>
@@ -57,12 +61,7 @@ function CatalogSidebar({ dispatch }) {
       <CatalogSidebarSection key="equipaments">
         <h5
           style={{ cursor: "pointer" }}
-          onClick={() =>
-            dispatch({
-              type: "FILTER_INSTRUMENT",
-              payload: { isIstrument: false, categoria: null },
-            })
-          }
+          onClick={() => handleClick({ id: null, is_instrument: false })}
         >
           Equipamentos
         </h5>
@@ -74,13 +73,8 @@ function CatalogSidebar({ dispatch }) {
               <li
                 key={equip.id}
                 style={{ cursor: "pointer" }}
-                className="text-capitalize pl-4 pt-2"
-                onClick={() =>
-                  dispatch({
-                    type: "FILTER_INSTRUMENT",
-                    payload: { isIstrument: false, categoria: equip.id },
-                  })
-                }
+                className={listItemClasses(equip)}
+                onClick={() => handleClick(equip)}
               >
                 {equip.name}
               </li>

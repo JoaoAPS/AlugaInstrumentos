@@ -6,13 +6,30 @@ import CatalogItem from "../components/CatalogItem"
 const reducer = (prev, action) => {
   const { type, payload } = action
 
-  if (type === "UPDATE_FILTER") {
+  if (type === "UPDATE_FILTERS") {
+    console.log(payload)
+    let new_url = "equipamentos?"
+    if (payload.isInstrument !== null) {
+      new_url += "&instrumento=" + (payload.isInstrument ? "1" : "0")
+    }
+    if (payload.categoria !== null) {
+      new_url += `&categorias=${payload.categoria}`
+    }
+
     return {
       ...prev,
       isInstrument: payload.isInstrument,
       categoria: payload.categoria,
-      fetchCount: prev.fetchCount + 1,
-      isLoading: true,
+      fetch_url: new_url,
+    }
+  }
+
+  if (type === "CLEAR_FILTERS") {
+    return {
+      ...prev,
+      isInstrument: null,
+      categoria: null,
+      fetch_url: "equipamentos",
     }
   }
 
@@ -23,23 +40,25 @@ const reducer = (prev, action) => {
   if (type === "SET_ERROR") {
     return { ...prev, isLoading: false, error: payload }
   }
+
+  return prev
 }
 
 function Catalog() {
   const [state, dispatch] = useReducer(reducer, {
-    fetchCount: 0,
     isInstrument: null,
     categoria: null,
     items: [],
     isLoading: true,
     error: null,
+    fetch_url: "equipamentos",
   })
 
   useEffect(() => {
     const cancelSource = CancelToken.source()
 
     api
-      .get("equipamentos", { cancelToken: cancelSource.token })
+      .get(state.fetch_url, { cancelToken: cancelSource.token })
       .then(res => {
         dispatch({ type: "SET_DATA", payload: res.data })
       })
@@ -53,9 +72,8 @@ function Catalog() {
       })
 
     return () => cancelSource.cancel()
-  }, [state.fetchCount])
+  }, [state.fetch_url])
 
-  if (state.isLoading) return <h3>Loading...</h3>
   if (state.error) return <h3>Erro: {state.error}</h3>
   if (state.items === null) return <h3>Item null</h3>
 
@@ -65,15 +83,23 @@ function Catalog() {
 
       <div className="row">
         <div className="col-lg-3 col-md-3">
-          <CatalogSidebar dispatch={dispatch} />
+          <CatalogSidebar dispatch={dispatch} activeCat={state.categoria} />
         </div>
 
         <div className="col">
-          <div className="row row-cols-md-3 row-cols-lg-4">
-            {state.items.map((item, idx) => (
-              <CatalogItem key={item.id} {...item} idx={idx} />
-            ))}
-          </div>
+          {state.isLoading ? (
+            <h3>Loading...</h3>
+          ) : state.items.length > 0 ? (
+            <div className="row row-cols-md-3 row-cols-lg-4">
+              {state.items.map((item, idx) => (
+                <CatalogItem key={item.id} {...item} idx={idx} />
+              ))}
+            </div>
+          ) : (
+            <p style={{ fontSize: "1.5rem" }} className="p-4">
+              Ops, parece que não há nenhum item no momento.
+            </p>
+          )}
         </div>
       </div>
     </div>
