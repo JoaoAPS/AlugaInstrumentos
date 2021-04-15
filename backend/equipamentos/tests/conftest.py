@@ -19,7 +19,7 @@ def detail_url():
 
 @pytest.fixture
 def equipamento(db, tmp_image):
-    cat = Categoria.objects.create(name='Test Cat')
+    cat = Categoria.objects.create(name='Test Cat', is_instrument=True)
     equip = Equipamento.objects.create(
         title='Test Equip',
         description='lorem ipsum',

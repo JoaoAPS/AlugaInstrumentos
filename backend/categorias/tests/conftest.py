@@ -6,7 +6,7 @@ from categorias.models import Categoria
 
 @pytest.fixture
 def categoria(db):
-    return Categoria.objects.create(name='categoria teste')
+    return Categoria.objects.create(name='categoria teste', is_instrument=True)
 
 
 @pytest.fixture

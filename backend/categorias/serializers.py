@@ -8,4 +8,4 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = Categoria
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'is_instrument')

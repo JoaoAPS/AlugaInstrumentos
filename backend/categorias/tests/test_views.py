@@ -6,9 +6,9 @@ from categorias.serializers import CategoriaSerializer
 
 def test_categoria_list_view_successful(categorias_list_url, userClient):
     """Testa listagem de categorias pela api"""
-    Categoria.objects.create(name='Foo')
-    Categoria.objects.create(name='ABC')
-    Categoria.objects.create(name='Cat1')
+    Categoria.objects.create(name='Foo', is_instrument=False)
+    Categoria.objects.create(name='ABC', is_instrument=False)
+    Categoria.objects.create(name='Cat1', is_instrument=True)
 
     res = userClient.get(categorias_list_url)
     serializer = CategoriaSerializer(
