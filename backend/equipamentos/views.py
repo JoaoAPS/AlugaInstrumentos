@@ -40,7 +40,7 @@ class EquipamentoViewSet(ModelViewSet):
         # Filtra instrumentos
         is_instrument = self.request.query_params.get('instrumento')
         if is_instrument is not None:
-            is_instrument = bool(is_instrument)
+            is_instrument = bool(int(is_instrument))
             queryset = queryset.filter(is_instrument=is_instrument)
 
         # Filtra por categorias
