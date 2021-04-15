@@ -74,7 +74,6 @@ def tmp_image():
 
     file.close()
     if os.path.isfile(
-        os.path.join(settings.MEDIA_ROOT, 'equipaments', file.path)
+        os.path.join(settings.MEDIA_ROOT, 'equipaments', file.name)
     ):
-        os.remove(os.path.join(settings.MEDIA_ROOT, 'equipaments', file.path))
-
+        os.remove(os.path.join(settings.MEDIA_ROOT, 'equipaments', file.name))
