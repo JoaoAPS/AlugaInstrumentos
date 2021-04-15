@@ -1,6 +1,11 @@
-function CatalogSidebar() {
-  const instruments = ["Sopro", "Violão", "Guitarra", "Bateria"]
-  const equipaments = ["Caixas de som", "Cabos", "Pedais"]
+import useFetch from "../hooks/useFetch"
+
+function CatalogSidebar({ dispatch }) {
+  const { data: categorias, isLoading, error } = useFetch("categorias")
+
+  if (isLoading) return <div></div>
+  if (error) return <h3>Erro ao carregar categorias!</h3>
+  if (categorias === null) return <h3>Null</h3>
 
   return (
     <>
@@ -16,26 +21,70 @@ function CatalogSidebar() {
       </CatalogSidebarSection>
 
       <CatalogSidebarSection key="instruments">
-        <h5>Instrumentos</h5>
+        <h5
+          style={{ cursor: "pointer" }}
+          onClick={() =>
+            dispatch({
+              type: "FILTER_INSTRUMENT",
+              payload: { isIstrument: true, categoria: null },
+            })
+          }
+        >
+          Instrumentos
+        </h5>
 
         <ul className="list-unstyled m-0">
-          {instruments.map(instr => (
-            <li key={instr} className="text-capitalize pl-4 pt-2">
-              {instr}
-            </li>
-          ))}
+          {categorias
+            .filter(cat => cat.is_instrument)
+            .map(instr => (
+              <li
+                key={instr.id}
+                className="text-capitalize pl-4 pt-2"
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  dispatch({
+                    type: "FILTER_INSTRUMENT",
+                    payload: { isIstrument: true, categoria: instr.id },
+                  })
+                }
+              >
+                {instr.name}
+              </li>
+            ))}
         </ul>
       </CatalogSidebarSection>
 
       <CatalogSidebarSection key="equipaments">
-        <h5>Equipamentos</h5>
+        <h5
+          style={{ cursor: "pointer" }}
+          onClick={() =>
+            dispatch({
+              type: "FILTER_INSTRUMENT",
+              payload: { isIstrument: false, categoria: null },
+            })
+          }
+        >
+          Equipamentos
+        </h5>
 
         <ul className="list-unstyled m-0">
-          {equipaments.map(equip => (
-            <li key={equip} className="text-capitalize pl-4 pt-2">
-              {equip}
-            </li>
-          ))}
+          {categorias
+            .filter(cat => !cat.is_instrument)
+            .map(equip => (
+              <li
+                key={equip.id}
+                style={{ cursor: "pointer" }}
+                className="text-capitalize pl-4 pt-2"
+                onClick={() =>
+                  dispatch({
+                    type: "FILTER_INSTRUMENT",
+                    payload: { isIstrument: false, categoria: equip.id },
+                  })
+                }
+              >
+                {equip.name}
+              </li>
+            ))}
         </ul>
       </CatalogSidebarSection>
     </>

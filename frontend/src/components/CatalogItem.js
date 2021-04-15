@@ -1,9 +1,11 @@
-function CatalogItem({ title, price, image, idx }) {
+import PriceFormatted from "./PriceFormatted"
+
+function CatalogItem({ title, price_per_day, image, idx }) {
   let borderClass = " border border-top-0"
-  if (idx % 3 == 0) borderClass += " border-left-md-0"
-  if (idx % 3 == 2) borderClass += " border-right-md-0"
-  if (idx % 4 == 0) borderClass += " border-left-lg-0"
-  if (idx % 4 == 3) borderClass += " border-right-lg-0"
+  if (idx % 3 === 0) borderClass += " border-left-md-0"
+  if (idx % 3 === 2) borderClass += " border-right-md-0"
+  if (idx % 4 === 0) borderClass += " border-left-lg-0"
+  if (idx % 4 === 3) borderClass += " border-right-lg-0"
 
   return (
     <article
@@ -11,8 +13,10 @@ function CatalogItem({ title, price, image, idx }) {
       style={{ cursor: "pointer" }}
     >
       <img src={image} alt={title} width="120" height="120" />
-      <h5 className="mt-2">{title}</h5>
-      <span className="text-muted">R$ {price.toFixed(2)}</span>
+      <h6 className="mt-2 px-2 text-wrap">{title}</h6>
+      <span className="text-muted">
+        <PriceFormatted value={price_per_day} />
+      </span>
     </article>
   )
 }
