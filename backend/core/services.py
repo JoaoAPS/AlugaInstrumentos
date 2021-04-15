@@ -22,7 +22,7 @@ def executePedido(pedido: Pedido):
             start_date=pedido.start_date, end_date=pedido.end_date
         ):
             raise EquipamentoUnavailable(
-                f'{equipamento.name} (id {equipamento.id}) não está ' +
+                f'{equipamento.title} (id {equipamento.id}) não está ' +
                 'disponível entre {pedido.start_date} e {pedido.end_date}.'
             )
 

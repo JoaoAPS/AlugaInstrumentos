@@ -26,10 +26,14 @@ def test_pedido_list_view_only_shows_user_pedidos(userClient, user, list_url):
 
 
 # --- Detail ---
-def test_pedido_retrieve_view_successful(userClient, pedido, detail_url):
+def test_pedido_retrieve_view_successful(
+    userClient, pedido, detail_url, userFactory
+):
     """Testa pedido retrieve view retorna os dados do pedido"""
     res = userClient.get(detail_url(pedido.id))
-    serializer = PedidoSerializer(pedido)
+    serializer = PedidoSerializer(
+        pedido, context={'request': userFactory.get(detail_url(pedido.id))}
+    )
 
     assert res.status_code == status.HTTP_200_OK
     assert res.data == serializer.data

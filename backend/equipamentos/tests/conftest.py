@@ -18,13 +18,14 @@ def detail_url():
 
 
 @pytest.fixture
-def equipamento(db):
+def equipamento(db, tmp_image):
     cat = Categoria.objects.create(name='Test Cat')
     equip = Equipamento.objects.create(
-        name='Test Equip',
+        title='Test Equip',
         description='lorem ipsum',
         price_per_day=1.00,
-        is_instrument=True
+        is_instrument=True,
+        image=tmp_image.name
     )
     equip.categorias.add(cat)
     return equip

@@ -1,7 +1,13 @@
 import pytest
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, \
+                                APIRequestFactory, \
+                                force_authenticate
+from PIL import Image
+import tempfile
+import os
 
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 
 @pytest.fixture
@@ -44,3 +50,31 @@ def adminClient(admin):
     client = APIClient()
     client.force_authenticate(admin)
     return client
+
+
+@pytest.fixture
+def factory():
+    return APIRequestFactory()
+
+
+@pytest.fixture
+def userFactory(user):
+    f = APIRequestFactory()
+    force_authenticate(f, user=user)
+    return f
+
+
+@pytest.fixture
+def tmp_image():
+    file = tempfile.NamedTemporaryFile(suffix='.png')
+    image = Image.new('RGB', size=(100, 100), color=(155, 0, 0))
+    image.save(file, 'png')
+    file.seek(0)
+    yield file
+
+    file.close()
+    if os.path.isfile(
+        os.path.join(settings.MEDIA_ROOT, 'equipaments', file.path)
+    ):
+        os.remove(os.path.join(settings.MEDIA_ROOT, 'equipaments', file.path))
+

@@ -51,7 +51,7 @@ class EquipamentoViewSet(ModelViewSet):
             queryset = queryset.filter(categorias__in=categorias).distinct()
 
         # Ordanação
-        sort_field = self.request.query_params.get('sort', 'name')
+        sort_field = self.request.query_params.get('sort', 'title')
         queryset = queryset.order_by(sort_field)
 
         return queryset

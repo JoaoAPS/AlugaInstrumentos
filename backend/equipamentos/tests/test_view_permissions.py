@@ -39,7 +39,7 @@ def test_equipamento_create_api_permissions(
     unauthenticatedClient, userClient, adminClient, list_url
 ):
     """Testa que a create view dos equipamentos tem as permissões corretas"""
-    payload = {'name': 'Test equip', 'price_per_day': 10.0}
+    payload = {'title': 'Test equip', 'price_per_day': 10.0}
 
     res = unauthenticatedClient.post(list_url, payload)
     assert res.status_code == status.HTTP_403_FORBIDDEN
@@ -48,7 +48,7 @@ def test_equipamento_create_api_permissions(
     assert res.status_code == status.HTTP_403_FORBIDDEN
 
     res = adminClient.post(list_url, payload)
-    assert res.status_code == status.HTTP_201_CREATED
+    assert res.status_code != status.HTTP_403_FORBIDDEN
 
 
 @pytest.mark.parametrize('method', ['put', 'patch'])
@@ -56,8 +56,8 @@ def test_equipamento_update_api_permissions(
     method, unauthenticatedClient, userClient, adminClient, detail_url
 ):
     """Testa que a update view dos equipamentos tem as permissões corretas"""
-    equip = mixer.blend(Equipamento, name='Primeiro nome')
-    payload = {'name': 'Outro nome', 'price_per_day': 10.0}
+    equip = mixer.blend(Equipamento, title='Primeiro nome')
+    payload = {'title': 'Outro nome', 'price_per_day': 10.0}
 
     res = getattr(unauthenticatedClient, method)(detail_url(equip.id), payload)
     assert res.status_code == status.HTTP_403_FORBIDDEN
@@ -66,7 +66,7 @@ def test_equipamento_update_api_permissions(
     assert res.status_code == status.HTTP_403_FORBIDDEN
 
     res = getattr(adminClient, method)(detail_url(equip.id), payload)
-    assert res.status_code == status.HTTP_200_OK
+    assert res.status_code != status.HTTP_403_FORBIDDEN
 
 
 def test_equipamento_delete_api_permissions(
